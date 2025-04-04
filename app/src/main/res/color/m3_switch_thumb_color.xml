@@ -1,0 +1,10 @@
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Hovered and selected -->
+    <item android:color="@color/white" android:state_hovered="true" android:state_checked="true"/>
+    <!-- Selected -->
+    <item android:color="@color/white" android:state_checked="true"/>
+    <!-- Hovered and not selected -->
+    <item android:color="@color/white" android:state_hovered="true" android:state_checked="false"/>
+    <!-- Not selected -->
+    <item android:color="@color/white" android:state_checked="false"/>
+</selector>

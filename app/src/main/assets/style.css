@@ -1,0 +1,32 @@
+@font-face {
+    font-family: 'UthmanicHafs';
+    src: url('uthmanic_hafs.ttf');
+}
+
+#ayaText{
+    font-family: 'UthmanicHafs';
+    font-size: 2rem;
+    line-height: 4rem;
+    direction: rtl;
+    padding: 0 1rem;
+    color: white;
+    overflow: scroll;
+    text-align: justify;
+    text-align-last: center;
+}
+
+body, html{
+    user-select: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #191919;
+}
+
+/* ( 600px and up) */
+@media (min-width: 600px) {
+    #ayaText{
+        font-size: 3rem;
+        line-height: 6rem;
+    }
+}

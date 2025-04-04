@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:animateLayoutChanges="true"
+        android:background="@color/gray"
+        tools:context=".MainActivity">
+
+        <LinearLayout
+            android:id="@+id/spinnerLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@color/gray"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:paddingTop="10dp"
+            android:paddingBottom="30dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <Spinner
+                android:id="@+id/sura_spinner"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@null"
+                android:dropDownWidth="match_parent" />
+
+        </LinearLayout>
+
+        <RelativeLayout
+            android:id="@+id/sliderLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@color/gray"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="5dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/spinnerLayout">
+
+
+            <com.google.android.material.slider.Slider
+                android:id="@+id/slider"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/slider_description"
+                android:layoutDirection="rtl"
+                android:paddingTop="10dp"
+                android:stepSize="1"
+                app:haloColor="@android:color/transparent"
+                app:labelBehavior="gone"
+                app:thumbColor="@color/white"
+                app:thumbRadius="0dp"
+                app:thumbTrackGapSize="0dp"
+                app:thumbWidth="0dp"
+                app:tickColor="@android:color/transparent"
+                app:trackColorActive="@color/white"
+                app:trackHeight="12dp" />
+
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:id="@+id/quranLayout"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:background="#191919"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toTopOf="@id/spacer"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/sliderLayout">
+
+            <WebView
+                android:id="@+id/quranContent"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/gray"
+                android:scrollbars="none" />
+
+        </RelativeLayout>
+
+        <View
+            android:id="@+id/spacer"
+            android:layout_width="match_parent"
+            android:layout_height="10dp"
+            app:layout_constraintTop_toBottomOf="@id/quranLayout"
+            app:layout_constraintBottom_toTopOf="@+id/bottomContainer"/>
+
+        <TextView
+            android:id="@+id/ayaCount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="18dp"
+            android:layout_weight="0.5"
+            android:fontFamily="@font/uthmanic_hafs"
+            android:paddingBottom="12dp"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textSize="25sp"
+            app:layout_constraintBottom_toTopOf="@id/sliderLayout"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.75"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/spinnerLayout"
+            tools:text="52" />
+
+
+        <TextView
+            android:id="@+id/pageCount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="18dp"
+            android:layout_weight="0.5"
+            android:fontFamily="@font/uthmanic_hafs"
+            android:paddingBottom="12dp"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textSize="25sp"
+            app:layout_constraintBottom_toTopOf="@id/sliderLayout"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.25"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/spinnerLayout"
+            tools:text="52" />
+
+
+        <RelativeLayout
+            android:id="@+id/bottomContainer"
+            android:layout_width="match_parent"
+            android:layout_height="90dp"
+            android:elevation="20dp"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:translationZ="25dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="1">
+
+            <LinearLayout
+                android:id="@+id/switchLayout"
+                android:layout_width="100dp"
+                android:layout_height="match_parent"
+                android:layout_alignParentStart="true"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp">
+
+                <com.google.android.material.materialswitch.MaterialSwitch
+                    android:id="@+id/hide"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:layoutDirection="rtl"
+                    app:thumbTint="@color/m3_switch_thumb_color" />
+
+
+            </LinearLayout>
+
+            <ImageButton
+                android:id="@+id/clicker"
+                android:layout_width="100dp"
+                android:layout_height="match_parent"
+                android:layout_toStartOf="@+id/previous_aya"
+                android:layout_toEndOf="@id/switchLayout"
+                android:backgroundTint="#22FDFFCD"
+                android:contentDescription="@string/next_aya"
+                android:gravity="center"
+                app:tint="#FDFFCD"
+                android:layout_marginEnd="12dp"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:theme="@android:style/ThemeOverlay.Material.Dark"
+                android:layoutDirection="rtl"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_arrow_up"
+                app:iconTint="@color/white" />
+
+            <ImageButton
+                android:id="@+id/previous_aya"
+                android:layout_width="100dp"
+                android:layout_height="match_parent"
+                android:layout_alignParentEnd="true"
+                android:contentDescription="@string/previous_aya"
+                android:gravity="center"
+                app:tint="#FFBEEF"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:theme="@android:style/ThemeOverlay.Material.Dark"
+                android:backgroundTint="#22FFBEEF"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_arrow_up"
+                app:iconTint="@color/white" />
+
+
+        </RelativeLayout>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
