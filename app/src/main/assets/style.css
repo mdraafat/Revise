@@ -3,6 +3,7 @@
     src: url('uthmanic_hafs.ttf');
 }
 
+
 #ayaText{
     font-family: 'UthmanicHafs';
     font-size: 2rem;
@@ -28,5 +29,12 @@ body, html{
     #ayaText{
         font-size: 3rem;
         line-height: 6rem;
+    }
+}
+
+@media (orientation: landscape)  {
+    #ayaText{
+        font-size: 2rem;
+        line-height: 4rem;
     }
 }

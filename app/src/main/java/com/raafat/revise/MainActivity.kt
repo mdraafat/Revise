@@ -24,7 +24,6 @@ class MainActivity : AppCompatActivity() {
     private lateinit var viewModel: MainViewModel
     private lateinit var webViewManager: WebViewManager
     private lateinit var preferenceManager: PreferenceManager
-    private lateinit var dialogHelper: DialogHelper
 
     private lateinit var ayaList: List<Aya>
     private var isSpinnerItemClickedBefore = false
@@ -41,7 +40,6 @@ class MainActivity : AppCompatActivity() {
         // Initialize our helper classes
         webViewManager = WebViewManager(this)
         preferenceManager = PreferenceManager(this)
-        dialogHelper = DialogHelper(this)
 
         // Setup view binding
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -51,16 +49,12 @@ class MainActivity : AppCompatActivity() {
         viewModel = ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory(application))
             .get(MainViewModel::class.java)
 
-        // Set up insets for portrait mode only
+        // Set up insets for both portrait and landscape modes
         ViewCompat.setOnApplyWindowInsetsListener(binding.root) { view, windowInsets ->
             val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
 
-            // Only apply insets in portrait mode
-            if (resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
-                view.setPadding(insets.left, insets.top, insets.right, insets.bottom)
-            } else {
-                view.setPadding(0, 0, 0, 0)
-            }
+            // Apply insets in both portrait and landscape modes
+            view.setPadding(insets.left, insets.top, insets.right, insets.bottom)
 
             WindowInsetsCompat.CONSUMED
         }
@@ -110,20 +104,6 @@ class MainActivity : AppCompatActivity() {
 
             override fun onNothingSelected(parent: AdapterView<*>) {
                 // Do nothing
-            }
-        }
-
-        // Setup previous aya button
-        binding.previousAya.setOnClickListener {
-            lifecycleScope.launch {
-                handlePreviousClick()
-            }
-        }
-
-        // Setup main clicker for next aya
-        binding.clicker.setOnClickListener {
-            lifecycleScope.launch {
-                handleNextClick()
             }
         }
 
@@ -219,8 +199,6 @@ class MainActivity : AppCompatActivity() {
             } else if (binding.slider.value > 1) {
                 binding.slider.value -= 1
                 updateAyaContent(binding.slider.value.toInt())
-            } else {
-                checkPreviousSura()
             }
         } else {
             // Hide mode - previous word or previous aya
@@ -240,8 +218,6 @@ class MainActivity : AppCompatActivity() {
             } else if (binding.slider.value < binding.slider.valueTo) {
                 binding.slider.value += 1
                 updateAyaContent(binding.slider.value.toInt())
-            } else {
-                checkNextSura()
             }
         } else {
             // Hide mode - next word or next aya
@@ -250,34 +226,6 @@ class MainActivity : AppCompatActivity() {
                 binding.slider.value += 1
                 updateAyaContent(binding.slider.value.toInt())
             }
-        }
-    }
-
-    private fun checkPreviousSura() {
-        if (binding.suraSpinner.selectedItemPosition > 0) {
-            val prevSuraPosition = binding.suraSpinner.selectedItemPosition - 1
-            val sura = (binding.suraSpinner.adapter.getItem(prevSuraPosition) as String).substringAfter(" ")
-
-            dialogHelper.showCustomDialog(
-                message = getString(R.string.go_to).plus(sura),
-                onPositiveClick = {
-                    binding.suraSpinner.setSelection(prevSuraPosition)
-                }
-            )
-        }
-    }
-
-    private fun checkNextSura() {
-        if (binding.suraSpinner.selectedItemPosition < binding.suraSpinner.adapter.count - 1) {
-            val nextSuraPosition = binding.suraSpinner.selectedItemPosition + 1
-            val sura = (binding.suraSpinner.adapter.getItem(nextSuraPosition) as String).substringAfter(" ")
-
-            dialogHelper.showCustomDialog(
-                message = getString(R.string.go_to).plus(sura),
-                onPositiveClick = {
-                    binding.suraSpinner.setSelection(nextSuraPosition)
-                }
-            )
         }
     }
 
@@ -324,6 +272,28 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    fun moveToNextAya() {
+        lifecycleScope.launch {
+            if (binding.slider.value < binding.slider.valueTo) {
+                binding.slider.value += 1
+                updateAyaContent(binding.slider.value.toInt())
+            }
+        }
+    }
+
+    fun moveToPrevAya() {
+        lifecycleScope.launch {
+            if (binding.slider.value > 1) {
+                binding.slider.value -= 1
+                updateAyaContentPrev(binding.slider.value.toInt())
+            }
+
+            else{
+                binding.hide.isChecked = false
+            }
+        }
+    }
+
     override fun onPause() {
         super.onPause()
         preferenceManager.saveSelectedSura(binding.suraSpinner.selectedItemPosition)
@@ -338,8 +308,5 @@ class MainActivity : AppCompatActivity() {
         super.attachBaseContext(newBase)
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        dialogHelper.dismissActiveDialog()
-    }
+
 }

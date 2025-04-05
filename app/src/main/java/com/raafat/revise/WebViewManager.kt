@@ -20,6 +20,14 @@ class WebViewManager(private val context: Context) {
 
     @SuppressLint("SetJavaScriptEnabled")
     suspend fun setupWebView(webView: WebView) = withContext(Dispatchers.Main) {
+
+        webView.settings.javaScriptEnabled = true
+        webView.settings.domStorageEnabled = true
+
+        // Add the JavaScript interface
+        webView.addJavascriptInterface(WebViewJavaScriptInterface(context as MainActivity), "Android")
+
+
         if (!isWebViewInitialized) {
             webView.apply {
                 loadUrl("file:///android_asset/index.html")
@@ -176,4 +184,21 @@ class WebViewManager(private val context: Context) {
         kotlinx.coroutines.delay(50)
         return@withContext result
     }
+
+    private inner class WebViewJavaScriptInterface(private val activity: MainActivity) {
+        @android.webkit.JavascriptInterface
+        fun moveToNextAya() {
+            activity.runOnUiThread {
+                activity.moveToNextAya()
+            }
+        }
+
+        @android.webkit.JavascriptInterface
+        fun moveToPrevAya() {
+            activity.runOnUiThread {
+                activity.moveToPrevAya()
+            }
+        }
+    }
 }
+
